@@ -83,3 +83,20 @@ class EstateProperty(models.Model):
         raise UserError('You cannot sell a cancelled property.')
       record.status = 'sold'
     return True
+  
+  _check_expected_price = models.Constraint(
+    "CHECK(expected_price > 0)",
+    "The expected price must be strictly positive."
+  )
+
+  _check_selling_price = models.Constraint(
+    "CHECK(selling_price >= 0)",
+    "The selling price cannot be negative."
+  )
+
+  @api.constrains('selling_price', 'expected_price')
+  def _check_selling_price(self):
+    for record in self:
+      if record.selling_price and record.expected_price:
+        if record.selling_price < 0.9 * record.expected_price:
+          raise UserError('Selling price cannot be lower than 90% of the expected price.')

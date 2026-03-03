@@ -15,6 +15,7 @@
         <field name="selling_price" width="14.28%" />
         <field name="date_availability" width="14.28%" />
         <field name="property_type_id" width="14.28%" />
+        <field name="status" width="14.28%" />
       </list>
     </field>
   </record>
@@ -30,9 +31,12 @@
           <button name="action_set_cancel" string="Set Cancelled" type="object" />
         </header>
         <sheet>
-          <h1>
-            <field name="title" string="Title" />
-          </h1>
+          <div>
+            <field name="status" string="Status" widget="badge" />
+            <h1>
+              <field name="title" string="Title" />
+            </h1>
+          </div>
           <field name="tag_ids" widget="many2many_tags" />
           <group>
             <group>
