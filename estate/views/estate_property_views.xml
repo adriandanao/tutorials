@@ -29,10 +29,10 @@
         <header>
           <button name="action_set_sell" string="Set Sold" type="object" />
           <button name="action_set_cancel" string="Set Cancelled" type="object" />
+          <field name="status" widget="statusbar" />
         </header>
         <sheet>
           <div>
-            <field name="status" string="Status" widget="badge" />
             <h1>
               <field name="title" string="Title" />
             </h1>
