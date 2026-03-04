@@ -26,6 +26,7 @@ class EstatePropertyOffer(models.Model):
     inverse="_inverse_date_deadline",
     store=True
   )
+  property_type_id = fields.Many2one(related="property_id.property_type_id", store=True)
 
   @api.depends('validity', 'create_date')
   def _compute_date_deadline(self):
@@ -58,6 +59,7 @@ class EstatePropertyOffer(models.Model):
       if other:
         raise UserError('There is already an accepted offer for this property.')
       record.status = 'accepted'
+      record.property_id.status = 'offer_accepted'
       record.property_id.selling_price = record.price
     return True
   
@@ -65,6 +67,14 @@ class EstatePropertyOffer(models.Model):
     for record in self:
       record.status = 'refused'
     return True
+  
+  @api.model
+  def create(self, vals):
+    offer = super().create(vals)
+    properties = offer.mapped('property_id')
+    if properties:
+      properties.write({'status': 'offer_received'})
+    return offer
   
   _check_offer_price = models.Constraint(
     "CHECK(price > 0)",

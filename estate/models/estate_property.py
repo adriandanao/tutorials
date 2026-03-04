@@ -24,7 +24,7 @@ class EstateProperty(models.Model):
       ('west', 'West'),
     ]
   )
-  active = fields.Boolean(default=False)
+  active = fields.Boolean(default=True)
 
   date_availability = fields.Date(default=lambda self: fields.Date.today() + relativedelta(months=3))
   selling_price = fields.Float()
@@ -38,7 +38,9 @@ class EstateProperty(models.Model):
       ('offer_received', 'Offer Received'),
       ('offer_accepted', 'Offer Accepted'),
       ('sold', 'Sold'),
-    ]
+      ('cancelled', 'Cancelled'),
+    ],
+    default='new'
   )
   last_seen = fields.Datetime()
   property_type_id = fields.Many2one("estate.property.type", string="Property Type")

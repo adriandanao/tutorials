@@ -6,16 +6,17 @@
     <field name="name">estate.property.tree</field>
     <field name="model">estate.property</field>
     <field name="arch" type="xml">
-      <list string="Properties">
-        <field name="title" width="14.28%" />
-        <field name="postcode" width="14.28%" />
-        <field name="bedrooms" width="14.28%" />
-        <field name="living_area" width="14.28%" />
-        <field name="expected_price" width="14.28%" />
-        <field name="selling_price" width="14.28%" />
-        <field name="date_availability" width="14.28%" />
-        <field name="property_type_id" width="14.28%" />
-        <field name="status" width="14.28%" />
+      <list string="Properties" decoration-success="status in ['offer_received', 'offer_accepted']"
+        decoration-bf="status == 'offer_accepted'" decoration-muted="status == 'sold'">
+        <field name="title" />
+        <field name="postcode" />
+        <field name="bedrooms" />
+        <field name="living_area" />
+        <field name="expected_price" />
+        <field name="selling_price" />
+        <field name="date_availability" />
+        <field name="property_type_id" />
+        <field name="status" />
       </list>
     </field>
   </record>
@@ -37,10 +38,11 @@
               <field name="title" string="Title" />
             </h1>
           </div>
-          <field name="tag_ids" widget="many2many_tags" />
+          <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
           <group>
             <group>
-              <field name="property_type_id" string="Property Type" widget="selection" />
+              <field name="property_type_id" string="Property Type"
+                options="{'no_create': True, 'no_edit': True}" />
               <field name="postcode" />
               <field name="date_availability" string="Available From" widget="date"
                 options="{'format': 'dd/MM/yyyy'}" />
@@ -60,22 +62,26 @@
                 <field class="w-25" name="facades" string="Facades" />
                 <field class="w-25" name="garage" string="Garage" />
                 <field class="w-25" name="garden" string="Garden" />
-                <field class="w-25" name="garden_area" string="Garden Area (sqm)" />
-                <field class="w-25" name="garden_orientation" string="Garden Orientation" />
+                <field class="w-25" name="garden_area" string="Garden Area (sqm)"
+                  invisible="not garden" />
+                <field class="w-25" name="garden_orientation" string="Garden Orientation"
+                  invisible="not garden" />
                 <field class="w-25" name="total_area" string="Total Area (sqm)" />
-
               </group>
             </page>
 
             <page string="Offers">
               <field name="offer_ids">
-                <list>
+                <list editable="top" string="Offers" decoration-danger="status == 'refused'"
+                  decoration-success="status == 'accepted'">
                   <field name="price" />
                   <field name="partner_id" width="250px" />
                   <field name="validity" string="Validity (days)" width="250px" />
-                  <field name="date_deadline" string="Deadline" widget="date" />
-                  <button name="action_accept_offer" type="object" icon="fa-check" string="Accept" />
-                  <button name="action_refuse_offer" type="object" icon="fa-times" string="Refuse" />
+                  <field name="date_deadline" string="Deadline" widget="date" optional="true" />
+                  <button name="action_accept_offer" type="object" icon="fa-check" string="Accept"
+                    invisible="status in ['accepted', 'refused']" />
+                  <button name="action_refuse_offer" type="object" icon="fa-times" string="Refuse"
+                    invisible="status in ['accepted', 'refused']" />
                   <field name="status" />
                 </list>
               </field>
@@ -98,6 +104,7 @@
     <field name="name">Properties</field>
     <field name="res_model">estate.property</field>
     <field name="view_mode">list,form</field>
+    <field name="context">{'search_default_available': True}</field>
     <field name="view_id" ref="view_estate_property_tree" />
   </record>
 
@@ -125,7 +132,7 @@
         <field name="postcode" />
         <field name="expected_price" />
         <field name="bedrooms" />
-        <field name="living_area" />
+        <field name="living_area" filter_domain="[('living_area', '>=', self)]" />
         <field name="facades" />
 
         <!-- Filters displayed as buttons -->
