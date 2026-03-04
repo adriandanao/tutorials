@@ -54,7 +54,7 @@
             </page>
             <page string="Stock Adjustments">
               <field name="adjustment_ids">
-                <list string="Stock Adjustments">
+                <list string="Stock Adjustments" limit="5" default_order="date desc">
                   <field name="type" />
                   <field name="reason" />
                   <field name="units" />
@@ -75,9 +75,7 @@
     <field name="view_id" ref="view_inventory_products_tree" />
   </record>
 
-  <menuitem id="menu_inventory_root" name="Inventory System" />
-
-  <menuitem id="menu_inventory_stock" name="Stock" parent="menu_inventory_root" />
+  <menuitem id="menu_inventory_stock" name="Stock" parent="menu_inventory_root" sequence="3" />
 
   <menuitem id="menu_inventory_products" name="Products" parent="menu_inventory_stock"
     action="action_inventory_products" />

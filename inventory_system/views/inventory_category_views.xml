@@ -41,8 +41,6 @@
     <field name="view_id" ref="view_inventory_category_tree" />
   </record>
 
-  <menuitem id="menu_inventory_root" name="Inventory System" />
-
   <menuitem id="menu_inventory_category" name="Categories" parent="menu_inventory_root"
-    action="action_inventory_category" />
+    action="action_inventory_category" sequence="4" />
 </odoo>

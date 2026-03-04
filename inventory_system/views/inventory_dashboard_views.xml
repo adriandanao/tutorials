@@ -1,0 +1,29 @@
+<odoo>
+  <record id="view_inventory_adjustment_graph" model="ir.ui.view">
+    <field name="name">inventory.dashboard</field>
+    <field name="model">inventory.adjustments</field>
+    <field name="arch" type="xml">
+      <graph string="Stock Adjustments" type="bar">
+        <field name="date" interval="month" type="row" />
+        <field name="type" type="col" />
+        <field name="units" type="measure" />
+      </graph>
+    </field>
+  </record>
+
+  <record id="action_inventory_dashboard" model="ir.actions.act_window">
+    <field name="name">Dashboard</field>
+    <field name="res_model">inventory.adjustments</field>
+    <field name="view_mode">graph</field>
+  </record>
+
+  <menuitem id="menu_inventory_root"
+    name="Inventory System"
+    sequence="1" />
+
+  <menuitem id="menu_inventory_dashboard"
+    name="Dashboard"
+    parent="menu_inventory_root"
+    action="action_inventory_dashboard"
+    sequence="2" />
+</odoo>

@@ -9,6 +9,7 @@
   'installable': True,
   'data': [
     'security/ir.model.access.csv',
+    'views/inventory_dashboard_views.xml',
     'views/inventory_products_views.xml',
     'views/inventory_category_views.xml',
   ]
