@@ -1,0 +1,48 @@
+<odoo>
+  <record id="view_inventory_category_tree" model="ir.ui.view">
+    <field name="name">inventory.category.list</field>
+    <field name="model">inventory.category</field>
+    <field name="arch" type="xml">
+      <list string="Categories">
+        <field name="name" />
+      </list>
+    </field>
+  </record>
+
+  <record id="view_inventory_category_form" model="ir.ui.view">
+    <field name="name">inventory.category.form</field>
+    <field name="model">inventory.category</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <field name="name" />
+          </group>
+          <notebook>
+            <page string="Products">
+              <field name="product_id">
+                <list editable="bottom">
+                  <field name="product_name" />
+                  <field name="sku_number" />
+                  <field name="stock" />
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_inventory_category" model="ir.actions.act_window">
+    <field name="name">Categories</field>
+    <field name="res_model">inventory.category</field>
+    <field name="view_mode">list,form</field>
+    <field name="view_id" ref="view_inventory_category_tree" />
+  </record>
+
+  <menuitem id="menu_inventory_root" name="Inventory System" />
+
+  <menuitem id="menu_inventory_category" name="Categories" parent="menu_inventory_root"
+    action="action_inventory_category" />
+</odoo>
