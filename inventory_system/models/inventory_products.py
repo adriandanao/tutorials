@@ -14,8 +14,8 @@ class InventoryProducts(models.Model):
     string="Status",
     selection=[
       ('in_stock', 'In Stock'),
-      ('out_of_stock', 'Out of Stock'),
       ('low_stock', 'Low Stock'),
+      ('out_of_stock', 'Out of Stock'),
     ],
     default='in_stock',
     compute="_compute_status",
@@ -30,6 +30,13 @@ class InventoryProducts(models.Model):
   adjustment_ids = fields.One2many("inventory.adjustments", "product_id", string="Adjustments")
   recent_adjustment_ids = fields.One2many("inventory.adjustments", "product_id", compute="_compute_recent_adjustments", string="Recent Adjustments")
   last_adjustment_id = fields.Many2one("inventory.adjustments", compute="_compute_recent_adjustments", string="Last Adjustment")
+  total_sold = fields.Integer(string="Total Sold", compute="_compute_total_sold", store=True)
+
+  @api.depends("adjustment_ids.units", "adjustment_ids.type")
+  def _compute_total_sold(self):
+    for product in self:
+      outgoing = product.adjustment_ids.filtered(lambda a: a.type == "outgoing")
+      product.total_sold = sum(outgoing.mapped("units"))
 
   def _compute_recent_adjustments(self):
     for product in self:

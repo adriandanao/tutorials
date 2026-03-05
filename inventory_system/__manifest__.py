@@ -12,5 +12,6 @@
     'views/inventory_dashboard_views.xml',
     'views/inventory_products_views.xml',
     'views/inventory_category_views.xml',
+    'views/inventory_adjustments_views.xml',
   ]
 }
