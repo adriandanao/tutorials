@@ -1,0 +1,5 @@
+<odoo>
+  <record id="inventory_dashboard_main" model="inventory.dashboard">
+    <field name="name">Dashboard</field>
+  </record>
+</odoo>

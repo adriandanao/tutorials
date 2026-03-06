@@ -14,10 +14,34 @@
     </field>
   </record>
 
+  <record id="view_inventory_adjustments_graph" model="ir.ui.view">
+    <field name="name">inventory.adjustments.graph</field>
+    <field name="model">inventory.adjustments</field>
+    <field name="arch" type="xml">
+      <graph string="Adjustments per Month" type="bar">
+        <field name="date" interval="month" type="row" />
+        <field name="type" type="col" />
+        <field name="units" type="measure" />
+      </graph>
+    </field>
+  </record>
+
+  <record id="view_inventory_adjustments_graph_by_product" model="ir.ui.view">
+    <field name="name">inventory.adjustments.graph.by.product</field>
+    <field name="model">inventory.adjustments</field>
+    <field name="arch" type="xml">
+      <graph string="Adjustments by Product" type="bar">
+        <field name="product_id" type="row" />
+        <field name="type" type="col" />
+        <field name="units" type="measure" />
+      </graph>
+    </field>
+  </record>
+
   <record id="action_inventory_adjustments" model="ir.actions.act_window">
     <field name="name">Inventory Adjustments</field>
     <field name="res_model">inventory.adjustments</field>
-    <field name="view_mode">list</field>
+    <field name="view_mode">list,graph</field>
     <field name="view_id" ref="view_inventory_adjustments" />
   </record>
 

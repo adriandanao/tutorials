@@ -1,4 +1,5 @@
 from odoo import api, fields, models
+from odoo.exceptions import UserError
 
 class InventoryAdjustments(models.Model):
   _name = "inventory.adjustments"
@@ -22,5 +23,10 @@ class InventoryAdjustments(models.Model):
         record.product_id.stock += record.units
         record.product_id.last_restocked = record.date
       elif record.type == 'outgoing':
+        if record.units > record.product_id.stock:
+          raise UserError(
+            f"Insufficient stock for '{record.product_id.product_name}'. "
+            f"Available: {record.product_id.stock}, Requested: {record.units}."
+          )
         record.product_id.stock -= record.units
     return records

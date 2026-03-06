@@ -3,15 +3,17 @@
   'version': '1.0',
   'summary': 'Manage your inventory and stock levels',
   'category': 'Inventory',
-  'depends': ['base'],
+  'depends': ['base', 'web', 'board'],
   'author': 'Adrian',
   'application': True,
   'installable': True,
   'data': [
     'security/ir.model.access.csv',
-    'views/inventory_dashboard_views.xml',
+    'data/dashboard_data.xml',
+    'views/dashboard_views.xml',
     'views/inventory_products_views.xml',
     'views/inventory_category_views.xml',
     'views/inventory_adjustments_views.xml',
-  ]
+    'views/assets.xml',
+  ],
 }

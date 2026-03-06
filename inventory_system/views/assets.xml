@@ -1,0 +1,12 @@
+<odoo>
+  <record id="asset_backend" model="ir.asset">
+    <field name="name">Inventory Dashboard</field>
+    <field name="bundle">web.assets_backend</field>
+    <field name="path">inventory_system/static/src/dashboard/dashboard.js</field>
+  </record>
+  <record id="assets_backend_xml" model="ir.asset">
+    <field name="name">My Module Dashboard Template</field>
+    <field name="bundle">web.assets_backend</field>
+    <field name="path">inventory_system/static/src/dashboard/dashboard.xml</field>
+  </record>
+</odoo>

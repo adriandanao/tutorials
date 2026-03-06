@@ -1,4 +1,5 @@
 from odoo import fields, models, api
+from odoo.exceptions import UserError
 
 class InventoryProducts(models.Model):
   _name = "inventory.products"
@@ -31,6 +32,21 @@ class InventoryProducts(models.Model):
   recent_adjustment_ids = fields.One2many("inventory.adjustments", "product_id", compute="_compute_recent_adjustments", string="Recent Adjustments")
   last_adjustment_id = fields.Many2one("inventory.adjustments", compute="_compute_recent_adjustments", string="Last Adjustment")
   total_sold = fields.Integer(string="Total Sold", compute="_compute_total_sold", store=True)
+  total_revenue = fields.Float(string="Total Revenue", compute="_compute_total_revenue", store=True)
+
+  @api.model_create_multi
+  def create(self, vals_list):
+    for vals in vals_list:
+      if 'sku_number' in vals:
+        existing = self.search([('sku_number', '=', vals['sku_number'])])
+        if existing:
+          raise UserError(f"SKU Number '{vals['sku_number']}' already exists.")
+    return super().create(vals_list)
+
+  @api.depends("total_sold", "price")
+  def _compute_total_revenue(self):
+    for product in self:
+      product.total_revenue = product.total_sold * product.price
 
   @api.depends("adjustment_ids.units", "adjustment_ids.type")
   def _compute_total_sold(self):

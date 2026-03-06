@@ -34,10 +34,14 @@
           </div>
           <group>
             <group string="Statistics">
-              <field name="total_products" readonly="1" />
-              <field name="total_stock_value" readonly="1" widget="monetary" />
-              <field name="total_low_stock" readonly="1" />
-              <field name="total_out_of_stock" readonly="1" />
+              <group>
+                <field name="total_products" readonly="1" class="text-center fw-bold" />
+                <field name="total_stock_value" readonly="1" class="text-center fw-bold" />
+              </group>
+              <group>
+                <field name="total_low_stock" readonly="1" class="text-center fw-bold" />
+                <field name="total_out_of_stock" readonly="1" class="text-center fw-bold" />
+              </group>
             </group>
             <group string="Top Selling Products">
               <field name="top_selling_product_ids" readonly="1" nolabel="1">
@@ -46,6 +50,7 @@
                   <field name="total_sold" />
                   <field name="stock" />
                   <field name="price" widget="monetary" />
+                  <field name="total_revenue" widget="monetary" />
                 </list>
               </field>
             </group>

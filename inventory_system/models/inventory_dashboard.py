@@ -113,5 +113,5 @@ class InventoryDashboard(models.Model):
     Product = self.env['inventory.products']
     for record in self:
       record.top_selling_product_ids = Product.search(
-        [('total_sold', '>', 0)], order='total_sold desc', limit=10
+        [('total_revenue', '>', 0)], order='total_revenue desc', limit=10
       )
