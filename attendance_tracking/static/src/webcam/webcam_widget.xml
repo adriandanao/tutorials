@@ -1,0 +1,51 @@
+<templates xml:space="preserve">
+  <t t-name="attendance_tracking.WebcamWidget">
+    <div class="o_webcam_widget">
+
+      <t t-set="currentValue" t-value="props.record.data[props.name]"/>
+
+      <!-- Always in DOM so refs are always valid -->
+      <video t-ref="video" autoplay="autoplay" playsinline="true"
+        style="max-width: 320px; border-radius: 4px;"
+        t-att-style="state.streaming ? 'max-width:320px;border-radius:4px;' : 'display:none;'"/>
+      <canvas t-ref="canvas" style="display: none;"/>
+
+      <t t-if="currentValue and !state.streaming">
+        <img
+          t-att-src="'data:image/jpeg;base64,' + currentValue"
+          class="img-thumbnail"
+          style="max-width: 320px"
+        />
+      </t>
+
+      <div class="mt-2 d-flex gap-2">
+        <!-- Capture button: only when streaming -->
+        <t t-if="state.streaming">
+          <button class="btn btn-sm btn-success" t-on-click="capture">
+            <i class="fa fa-camera me-1"/>Capture
+          </button>
+          <button class="btn btn-sm btn-danger" t-on-click="_stopStream">
+            <i class="fa fa-times me-1"/>Cancel
+          </button>
+        </t>
+        <!-- Start / Retake button: only when not streaming -->
+        <t t-elif="!props.readonly">
+          <t t-if="currentValue">
+            <button class="btn btn-sm btn-secondary" t-on-click="retake">
+              <i class="fa fa-refresh me-1"/>Retake
+            </button>
+          </t>
+          <t t-else="">
+            <button class="btn btn-sm btn-primary" t-on-click="startCamera">
+              <i class="fa fa-camera me-1"/>Start Camera
+            </button>
+          </t>
+        </t>
+        <t t-elif="!currentValue">
+          <span class="text-muted fst-italic">No Photo Captured</span>
+        </t>
+      </div>
+
+    </div>
+  </t>
+</templates>

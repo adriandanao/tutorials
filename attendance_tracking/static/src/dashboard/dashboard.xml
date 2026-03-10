@@ -1,0 +1,150 @@
+<templates>
+  <t t-name="attendance_tracking.Dashboard">
+    <div class="o_dashboard p-4 pb-5"
+      style="background-color: #1e1e2e; color: #cdd6f4; min-height: 100%;">
+
+      <h1 class="mb-4 fw-bold"
+        style="color: #cdd6f4; border-bottom: 1px solid #313244; padding-bottom: 0.75rem;">
+        Attendance Dashboard
+      </h1>
+
+      <!-- Stat Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-sm-6 col-xl-3">
+          <div class="card h-100 border-0 p-3 text-center" style="background-color: #313244;">
+            <div class="mb-1"
+              style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #a6adc8;">Total
+              Students</div>
+            <div class="fw-bold" style="font-size: 2rem; color: #89b4fa;"
+              t-esc="state.stats.total_students ?? '-'" />
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="card h-100 border-0 p-3 text-center" style="background-color: #313244;">
+            <div class="mb-1"
+              style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #a6adc8;">Currently
+              Present</div>
+            <div class="fw-bold" style="font-size: 2rem; color: #a6e3a1;"
+              t-esc="state.stats.currently_present ?? '-'" />
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="card h-100 border-0 p-3 text-center" style="background-color: #313244;">
+            <div class="mb-1"
+              style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #a6adc8;">Absent
+              Today</div>
+            <div class="fw-bold" style="font-size: 2rem; color: #f38ba8;"
+              t-esc="state.stats.total_absent_today ?? '-'" />
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="card h-100 border-0 p-3 text-center" style="background-color: #313244;">
+            <div class="mb-1"
+              style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #a6adc8;">Completed
+              Today</div>
+            <div class="fw-bold" style="font-size: 2rem; color: #cba6f7;"
+              t-esc="state.stats.total_completed_today ?? '-'" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Attendance Percentages -->
+      <div class="row g-3 mb-4">
+        <div class="col-lg-4">
+          <div class="rounded p-3 text-center" style="background-color: #181825;">
+            <div class="mb-1"
+              style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #a6adc8;">Today's
+              Attendance</div>
+            <div class="fw-bold" style="font-size: 2.2rem; color: #89b4fa;">
+              <t t-esc="state.stats.attendance_percentage ?? 0" />% </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="rounded p-3 text-center" style="background-color: #181825;">
+            <div class="mb-1"
+              style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #a6adc8;">Weekly
+              Average</div>
+            <div class="fw-bold" style="font-size: 2.2rem; color: #a6e3a1;">
+              <t t-esc="state.stats.weekly_attendance_percentage ?? 0" />% </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="rounded p-3 text-center" style="background-color: #181825;">
+            <div class="mb-1"
+              style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #a6adc8;">Monthly
+              Average</div>
+            <div class="fw-bold" style="font-size: 2.2rem; color: #cba6f7;">
+              <t t-esc="state.stats.monthly_attendance_percentage ?? 0" />% </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart + Time Stats -->
+      <div class="row g-3 mb-4">
+        <div class="col-lg-8">
+          <div class="rounded p-3 h-100" style="background-color: #181825;">
+            <h5 class="mb-3 fw-semibold" style="color: #cdd6f4;">&#128202; Weekly Attendance (Last 7
+              Days)</h5>
+            <canvas t-ref="weeklyChart" style="max-height: 280px;" />
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="d-flex flex-column gap-3 h-100">
+            <div class="rounded p-3 text-center flex-fill" style="background-color: #181825;">
+              <div class="mb-2"
+                style="font-size: 0.8rem; text-transform: uppercase; color: #a6adc8;">Avg Time In
+                Today</div>
+              <div class="fw-bold" style="font-size: 2rem; color: #f9e2af;"
+                t-esc="state.stats.average_time_in ?? 'N/A'" />
+            </div>
+            <div class="rounded p-3 text-center flex-fill" style="background-color: #181825;">
+              <div class="mb-2"
+                style="font-size: 0.8rem; text-transform: uppercase; color: #a6adc8;">Late Arrivals
+                Today</div>
+              <div class="fw-bold" style="font-size: 2rem; color: #f38ba8;"
+                t-esc="state.stats.late_count ?? 0" />
+              <div style="font-size: 0.75rem; color: #585b70;">after 08:00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's Attendance Table -->
+      <div class="rounded p-3" style="background-color: #181825;">
+        <h5 class="mb-3 fw-semibold" style="color: #cdd6f4;">&#128203; Today's Attendance</h5>
+        <div class="table-responsive">
+          <table class="table table-sm mb-0" style="color: #cdd6f4; border-color: #313244;">
+            <thead
+              style="background-color: #11111b; color: #a6adc8; font-size: 0.8rem; text-transform: uppercase;">
+              <tr>
+                <th>Student</th>
+                <th>Time In</th>
+                <th>Time Out</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr t-if="state.todayAttendance.length === 0">
+                <td colspan="4" class="text-center" style="color: #585b70; padding: 1.5rem 0;">No
+                  attendance records for today</td>
+              </tr>
+              <tr t-foreach="state.todayAttendance" t-as="r" t-key="r.id"
+                style="border-color: #313244;">
+                <td t-esc="r.student_id ? r.student_id[1] : '-'" />
+                <td t-esc="formatTime(r.time_in)" />
+                <td t-esc="formatTime(r.time_out)" />
+                <td>
+                  <span t-if="r.status === 'in_progress'" class="badge"
+                    style="background-color: #f9e2af; color: #1e1e2e;">In Progress</span>
+                  <span t-if="r.status === 'complete'" class="badge"
+                    style="background-color: #a6e3a1; color: #1e1e2e;">Complete</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </t>
+</templates>

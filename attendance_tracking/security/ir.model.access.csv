@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_attendance,access_atendace,model_attendance_tracking_attendance,base.group_user,1,1,1,1
+access_dashboard,access_dashboard,model_attendance_tracking_dashboard,base.group_user,1,1,1,0
+access_department,access_department,model_attendance_tracking_department,base.group_user,1,1,1,1
+access_position,access_position,model_attendance_tracking_position,base.group_user,1,1,1,1
+access_student,access_student,model_attendance_tracking_student,base.group_user,1,1,1,1

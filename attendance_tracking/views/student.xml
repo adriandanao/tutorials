@@ -1,0 +1,83 @@
+<odoo>
+  <record id="view_student_tree" model="ir.ui.view">
+    <field name="name">student.tree</field>
+    <field name="model">attendance_tracking.student</field>
+    <field name="arch" type="xml">
+      <list string="Students">
+        <field name="name" />
+        <field name="student_id" />
+        <field name="email" />
+        <field name="department_id" widget="badge" />
+        <field name="position_id" />
+      </list>
+    </field>
+  </record>
+
+  <record id="view_inventory_products_form" model="ir.ui.view">
+    <field name="name">student.form</field>
+    <field name="model">attendance_tracking.student</field>
+    <field name="arch" type="xml">
+      <form>
+        <div class="d-flex align-items-center mb-4">
+          <h1>
+            <field name="name" string="Student Name" />
+          </h1>
+        </div>
+        <sheet>
+          <group>
+            <group>
+              <field name="student_id" string="Student ID" />
+              <field name="email" />
+            </group>
+            <group>
+              <field name="department_id" />
+              <field name="position_id" />
+            </group>
+          </group>
+          <notebook>
+            <page string="Attendance Records">
+              <field name="attendance_ids">
+                <list string="Attendance Records" readonly="1" create="false" order="date desc">
+                  <field name="date" />
+                  <field name="time_in" />
+                  <field name="time_out" />
+                  <field name="status" widget="badge" decoration-success="status == 'complete'"
+                    decoration-warning="status == 'in_progress'" />
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_student" model="ir.actions.act_window">
+    <field name="name">Students</field>
+    <field name="res_model">attendance_tracking.student</field>
+    <field name="view_mode">list,form</field>
+    <field name="view_id" ref="view_student_tree" />
+  </record>
+
+  <record id="student_search" model="ir.ui.view">
+    <field name="name">students.search</field>
+    <field name="model">attendance_tracking.student</field>
+    <field name="arch" type="xml">
+      <search string="Search Students">
+        <field name="name" />
+        <field name="student_id" />
+        <field name="email" />
+        <field name="department_id" />
+        <field name="position_id" />
+        <separator />
+        <filter string="Group by Department" name="department_group"
+          context="{'group_by': 'department_id'}" />
+        <filter string="Group by Position" name="position_group"
+          context="{'group_by': 'position_id'}" />
+      </search>
+    </field>
+  </record>
+
+  <menuitem id="menu_attendance_student" name="Student List" parent="menu_attendance_root"
+    action="action_student" />
+</odoo>

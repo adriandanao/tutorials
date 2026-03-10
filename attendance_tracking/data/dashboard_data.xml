@@ -1,0 +1,5 @@
+<odoo>
+  <record id="attendance_dashboard_default" model="attendance_tracking.dashboard">
+    <field name="name">Dashboard</field>
+  </record>
+</odoo>
