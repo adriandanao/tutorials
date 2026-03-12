@@ -9,4 +9,14 @@
     <field name="bundle">web.assets_backend</field>
     <field name="path">inventory_system/static/src/dashboard/dashboard.xml</field>
   </record>
+  <record id="assets_backend_scss" model="ir.asset">
+    <field name="name">Inventory Dashboard Styles</field>
+    <field name="bundle">web.assets_backend</field>
+    <field name="path">inventory_system/static/src/dashboard/dashboard.scss</field>
+  </record>
+  <record id="assets_backend_tailwind" model="ir.asset">
+    <field name="name">Inventory Dashboard Tailwind CSS</field>
+    <field name="bundle">web.assets_backend</field>
+    <field name="path">inventory_system/static/src/tailwind.output.css</field>
+  </record>
 </odoo>
