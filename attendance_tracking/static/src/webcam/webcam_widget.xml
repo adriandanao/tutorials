@@ -10,9 +10,11 @@
         t-att-style="state.streaming ? 'max-width:320px;border-radius:4px;' : 'display:none;'"/>
       <canvas t-ref="canvas" style="display: none;"/>
 
-      <t t-if="currentValue and !state.streaming">
+      <t t-set="currentValue" t-value="props.record.data[props.name]"/>
+
+      <t t-if="currentValue">
         <img
-          t-att-src="'data:image/jpeg;base64,' + currentValue"
+          t-att-src="'/web/image/' + props.record.resModel + '/' + props.record.resId + '/' + props.name"
           class="img-thumbnail"
           style="max-width: 320px"
         />

@@ -15,6 +15,7 @@ class Attendance(models.Model):
   ], string='Status', default='in_progress', required=True)
   time_in_image = fields.Binary(string="Time In Image", attachment=True)
   time_out_image = fields.Binary(string="Time Out Image", attachment=True)
+  video = fields.Char(string="Screen Record")
 
   def action_time_in(self):
     student = self.env['attendance_tracking.student'].search([

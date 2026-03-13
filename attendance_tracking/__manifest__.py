@@ -19,6 +19,9 @@
       'attendance_tracking/static/src/dashboard/dashboard.xml',
       'attendance_tracking/static/src/dashboard/dashboard.js',
 
+      'attendance_tracking/static/src/videoplayer/videoplayer_widget.xml',
+      'attendance_tracking/static/src/videoplayer/videoplayer_widget.js',
+
       'attendance_tracking/static/src/webcam/webcam_widget.xml',
       'attendance_tracking/static/src/webcam/webcam_widget.js'
     ]

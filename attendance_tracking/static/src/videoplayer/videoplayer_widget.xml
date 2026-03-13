@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+  <t t-name="attendance_tracking.VideoWidget">
+    <div>
+      <t t-if="!props.readonly">
+        <input type="text" class="o_input mb-2"
+          t-att-value="videoUrl"
+          t-on-change="onUrlChange"
+          placeholder="Enter YouTube or video URL..."/>
+      </t>
+      <t t-if="videoUrl">
+        <!-- YouTube: use iframe -->
+        <t t-if="isYoutube">
+          <iframe t-att-src="embedUrl"
+            width="320" height="240"
+            frameborder="0"
+            allowfullscreen="1"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"/>
+        </t>
+        <!-- Direct video file: use video tag -->
+        <t t-else="">
+          <video width="320" height="240" controls="controls">
+            <source t-att-src="videoUrl" type="video/mp4"/>
+          </video>
+        </t>
+      </t>
+      <t t-else="">
+        <span class="text-muted fst-italic">No video URL set</span>
+      </t>
+    </div>
+  </t>
+</templates>

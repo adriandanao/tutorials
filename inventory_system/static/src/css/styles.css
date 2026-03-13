@@ -1,4 +1,4 @@
-.o_list_table thead tr th {
+/* .o_list_table thead tr th {
   text-align: center;
   overflow-wrap: break-word !important;
 }
@@ -7,13 +7,14 @@
   text-align: center;
   text-overflow: ellipsis;
   overflow-wrap: break-word !important;
-}
+}  */
 
 .o_list_renderer
   .o_list_table
   tbody
   tr
-  td.o_list_number:not(.o_list_record_selector) {
+  td.o_list_number:not(.o_list_record_selector),
+.o_list_renderer .o_list_table thead .o_list_number_th {
   text-align: center;
 }
 
@@ -33,3 +34,11 @@
 .o_arrow_button[data-value="in_stock"] {
   background: lightgreen !important;
 }
+
+.o_list_table {
+  text-align: center !important;
+}
+/* 
+* {
+  background-color: #1e1e2e;
+} */

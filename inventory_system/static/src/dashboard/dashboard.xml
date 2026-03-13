@@ -66,14 +66,15 @@
           <div class="rounded p-3 h-100" style="background-color: #181825;">
             <h5 class="mb-3 fw-semibold" style="color: #f9e2af;">&#9888; Low Stock</h5>
             <div class="table-responsive">
-              <table class="table table-sm mb-0" style="color: #cdd6f4; border-color: #313244;">
+              <table class="table table-sm mb-0 text-center"
+                style="color: #cdd6f4; border-color: #313244;">
                 <thead
                   style="background-color: #11111b; color: #a6adc8; font-size: 0.8rem; text-transform: uppercase;">
                   <tr>
                     <th>Product</th>
-                    <th class="text-end">Stock</th>
-                    <th class="text-end">Min</th>
-                    <th class="text-end">Price</th>
+                    <th>Stock</th>
+                    <th>Min</th>
+                    <th>Price</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -81,10 +82,10 @@
                     t-on-click="() => openRecord('inventory.products', p.id)"
                     style="border-color: #313244; cursor: pointer;">
                     <td t-esc="p.product_name" />
-                    <td class="text-end fw-semibold" style="color: #f9e2af;"
+                    <td class="fw-semibold" style="color: #f9e2af;"
                       t-esc="p.stock.toLocaleString('en-US')" />
-                    <td class="text-end" t-esc="p.min_stock.toLocaleString('en-US')" />
-                    <td class="text-end"
+                    <td t-esc="p.min_stock.toLocaleString('en-US')" />
+                    <td
                       t-esc="'$' + p.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})" />
                   </tr>
                 </tbody>
@@ -98,13 +99,14 @@
           <div class="rounded p-3 h-100" style="background-color: #181825;">
             <h5 class="mb-3 fw-semibold" style="color: #f38ba8;">&#10005; Out of Stock</h5>
             <div class="table-responsive">
-              <table class="table table-sm mb-0" style="color: #cdd6f4; border-color: #313244;">
+              <table class="table table-sm mb-0 text-center"
+                style="color: #cdd6f4; border-color: #313244;">
                 <thead
                   style="background-color: #11111b; color: #a6adc8; font-size: 0.8rem; text-transform: uppercase;">
                   <tr>
                     <th>Product</th>
-                    <th class="text-end">Min Stock</th>
-                    <th class="text-end">Price</th>
+                    <th>Min Stock</th>
+                    <th>Price</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -112,8 +114,8 @@
                     t-on-click="() => openRecord('inventory.products', p.id)"
                     style="border-color: #313244; cursor: pointer;">
                     <td t-esc="p.product_name" />
-                    <td class="text-end" t-esc="p.min_stock.toLocaleString('en-US')" />
-                    <td class="text-end"
+                    <td t-esc="p.min_stock.toLocaleString('en-US')" />
+                    <td
                       t-esc="'$' + p.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})" />
                   </tr>
                 </tbody>
@@ -130,14 +132,15 @@
           <div class="rounded p-3 mb-1" style="background-color: #181825;">
             <h5 class="mb-3 fw-semibold" style="color: #cdd6f4;">&#128336; Recent Adjustments</h5>
             <div class="table-responsive">
-              <table class="table table-sm mb-0" style="color: #cdd6f4; border-color: #313244;">
+              <table class="table table-sm mb-0 text-center"
+                style="color: #cdd6f4; border-color: #313244;">
                 <thead
                   style="background-color: #11111b; color: #a6adc8; font-size: 0.8rem; text-transform: uppercase;">
                   <tr>
                     <th>Date</th>
                     <th>Product</th>
                     <th>Type</th>
-                    <th class="text-end">Units</th>
+                    <th>Units</th>
                     <th>Reason</th>
                   </tr>
                 </thead>
@@ -152,7 +155,7 @@
                         t-att-class="'badge ' + (a.type === 'incoming' ? 'bg-success' : 'bg-danger')"
                         t-esc="a.type" />
                     </td>
-                    <td class="text-end fw-semibold"
+                    <td class="fw-semibold"
                       t-att-style="'color: ' + (a.type === 'incoming' ? '#a6e3a1' : '#f38ba8') + ';'"
                       t-esc="(a.type === 'incoming' ? '+' : '-') + a.units.toLocaleString('en-US')" />
                     <td style="color: #a6adc8;" t-esc="a.reason || ''" />
@@ -167,15 +170,16 @@
           <div class="rounded p-3 h-100" style="background-color: #181825;">
             <h5 class="mb-3 fw-semibold" style="color: #89b4fa;">&#9650; Top Selling Products</h5>
             <div class="table-responsive">
-              <table class="table table-sm mb-0" style="color: #cdd6f4; border-color: #313244;">
+              <table class="table table-sm mb-0 text-center"
+                style="color: #cdd6f4; border-color: #313244;">
                 <thead
                   style="background-color: #11111b; color: #a6adc8; font-size: 0.8rem; text-transform: uppercase;">
                   <tr>
                     <th>Product</th>
-                    <th class="text-end">Units Sold</th>
-                    <th class="text-end">Stock</th>
-                    <th class="text-end">Price</th>
-                    <th class="text-end">Revenue</th>
+                    <th>Units Sold</th>
+                    <th>Stock</th>
+                    <th>Price</th>
+                    <th>Revenue</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -183,11 +187,11 @@
                     t-on-click="() => openRecord('inventory.products', p.id)"
                     style="border-color: #313244; cursor: pointer;">
                     <td class="fw-medium" t-esc="p.product_name" />
-                    <td class="text-end" t-esc="p.total_sold.toLocaleString('en-US')" />
-                    <td class="text-end" t-esc="p.stock.toLocaleString('en-US')" />
-                    <td class="text-end"
+                    <td t-esc="p.total_sold.toLocaleString('en-US')" />
+                    <td t-esc="p.stock.toLocaleString('en-US')" />
+                    <td
                       t-esc="'$' + p.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})" />
-                    <td class="text-end fw-semibold" style="color: #a6e3a1;"
+                    <td class="fw-semibold" style="color: #a6e3a1;"
                       t-esc="'$' + p.total_revenue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})" />
                   </tr>
                 </tbody>

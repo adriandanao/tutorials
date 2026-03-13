@@ -49,9 +49,18 @@
             <field name="time_out" readonly="1" invisible="status != 'complete'" />
           </group>
           <group string="Photos">
-            <field name="time_in_image" widget="webcam" string="Time In Photo" />
-            <field name="time_out_image" widget="webcam" string="Time Out Photo"
-              invisible="not id" />
+            <group>
+              <field name="time_in_image" widget="webcam" string="Time In Photo" />
+            </group>
+            <group>
+              <field name="time_out_image" widget="webcam" string="Time Out Photo"
+                invisible="not id" />
+            </group>
+          </group>
+          <group string="Video">
+            <group>
+              <field name="video" widget="videoWidget" string="Link" />
+            </group>
           </group>
         </sheet>
       </form>

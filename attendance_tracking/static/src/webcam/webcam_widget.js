@@ -37,14 +37,12 @@ class WebcamWidget extends Component {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     canvas.getContext("2d").drawImage(video, 0, 0);
-    const base64 = canvas.toDataURL("image/jpeg").split(",")[1];
+    const dataUrl = canvas.toDataURL("image/jpeg");
+    // Strip prefix before saving
+    const base64 = dataUrl.replace(/^data:image\/\w+;base64,/, "");
+    this.props.record.update({ [this.props.name]: base64 });
+    await this.props.record.save();
     this._stopStream();
-    await this.orm.write(
-      this.props.record.resModel,
-      [this.props.record.resId],
-      { [this.props.name]: base64 },
-    );
-    await this.props.record.load();
   }
 
   async retake() {
