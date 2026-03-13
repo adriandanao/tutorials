@@ -3,8 +3,8 @@
     <field name="name">inventory.category.list</field>
     <field name="model">inventory.category</field>
     <field name="arch" type="xml">
-      <list string="Categories" class="table-striped">
-        <field name="product_count" width="100px" class="text-center" />
+      <list string="Categories" class="table-striped text-center">
+        <field name="product_count" />
         <field name="name" />
       </list>
     </field>

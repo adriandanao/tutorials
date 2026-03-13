@@ -3,14 +3,14 @@
     <field name="name">inventory.products.tree</field>
     <field name="model">inventory.products</field>
     <field name="arch" type="xml">
-      <list string="Products">
+      <list string="Products" class="text-center">
         <field name="product_name" string="Product" />
         <field name="sku_number" string="SKU" />
         <field name="category_id" string="Category" />
         <field name="stock" />
         <field name="price" />
         <field name="status" widget="badge"
-          decoration-success="status == 'in_stock'"
+          decoration-success=" status== 'in_stock'"
           decoration-warning="status == 'low_stock'"
           decoration-danger="status == 'out_of_stock'" />
         <field name="last_restocked" />

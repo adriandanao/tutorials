@@ -16,4 +16,9 @@
     'views/inventory_adjustments_views.xml',
     'views/assets.xml',
   ],
+  'assets': {
+    'web.assets_backend': [
+      'inventory_system/static/src/css/styles.css',
+    ],
+  }
 }
