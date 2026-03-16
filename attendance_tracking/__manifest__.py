@@ -9,6 +9,7 @@
   'installable': True,
   'data': [
     'security/ir.model.access.csv',
+    'reports/attendance_report.xml',
     'views/dashboard.xml',
     'views/attendance.xml',
     'views/student.xml',

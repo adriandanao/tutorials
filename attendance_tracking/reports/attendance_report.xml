@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- ================================================
+      REPORT ACTIONS
+  ================================================ -->
+
+  <!-- Action: Print single student attendance report -->
+  <record id="action_report_student_attendance" model="ir.actions.report">
+    <field name="name">Student Attendance Report</field>
+    <field name="model">attendance_tracking.student</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">attendance_tracking.report_student_attendance_template</field>
+    <field name="report_file">attendance_tracking.report_student_attendance_template</field>
+    <field name="binding_model_id" ref="model_attendance_tracking_student" />
+    <field name="binding_type">report</field>
+  </record>
+
+  <!-- Action: Print attendance list report -->
+  <record id="action_report_attendance_list" model="ir.actions.report">
+    <field name="name">Attendance List Report</field>
+    <field name="model">attendance_tracking.attendance</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">attendance_tracking.report_attendance_list_template</field>
+    <field name="report_file">attendance_tracking.report_attendance_list_template</field>
+    <field name="binding_model_id" ref="model_attendance_tracking_attendance" />
+    <field name="binding_type">report</field>
+  </record>
+
+
+  <!-- ================================================
+      REPORT 1: STUDENT ATTENDANCE REPORT
+      Printed per student — shows all their attendance
+      records with time in/out, status, and a summary.
+  ================================================ -->
+
+  <template id="report_student_attendance_template">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="student">
+        <t t-call="web.external_layout">
+
+          <div class="page">
+
+            <!-- Header -->
+            <div
+              style="border-bottom: 2px solid #4a86c8; padding-bottom: 12px; margin-bottom: 20px;">
+              <h2 style="color: #4a86c8; margin: 0;">Student Attendance Report</h2>
+              <p style="color: #666; margin: 4px 0 0 0; font-size: 12px;"> Generated on: <t
+                  t-esc="context_timestamp(datetime.datetime.now()).strftime('%B %d, %Y %I:%M %p')" />
+              </p>
+            </div>
+
+            <!-- Student Info Card -->
+            <table style="width: 100%; margin-bottom: 24px; border-collapse: collapse;">
+              <tr>
+                <td style="width: 50%; vertical-align: top; padding-right: 16px;">
+                  <table style="width: 100%; font-size: 13px;">
+                    <tr>
+                      <td style="color: #888; padding: 3px 0; width: 120px;">Student Name</td>
+                      <td style="font-weight: bold;">
+                        <t t-esc="student.name.name" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="color: #888; padding: 3px 0;">Student ID</td>
+                      <td>
+                        <t t-esc="student.student_id" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="color: #888; padding: 3px 0;">Email</td>
+                      <td>
+                        <t t-esc="student.email or 'N/A'" />
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td style="width: 50%; vertical-align: top;">
+                  <table style="width: 100%; font-size: 13px;">
+                    <tr>
+                      <td style="color: #888; padding: 3px 0; width: 100px;">Department</td>
+                      <td>
+                        <t t-esc="student.department_id.title or 'N/A'" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="color: #888; padding: 3px 0;">Position</td>
+                      <td>
+                        <t t-esc="student.position_id.title or 'N/A'" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="color: #888; padding: 3px 0;">Total Records</td>
+                      <td style="font-weight: bold;">
+                        <t t-esc="len(student.attendance_ids)" />
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+
+            <!-- Summary Stats Row -->
+            <t t-set="completed"
+              t-value="student.attendance_ids.filtered(lambda r: r.status == 'complete')" />
+            <t t-set="in_progress"
+              t-value="student.attendance_ids.filtered(lambda r: r.status == 'in_progress')" />
+
+            <table
+              style="width: 100%; margin-bottom: 24px; border-collapse: collapse; text-align: center;">
+              <tr>
+                <td
+                  style="background: #eaf3fb; border: 1px solid #c9dff5; padding: 12px; width: 33%;">
+                  <div style="font-size: 22px; font-weight: bold; color: #4a86c8;">
+                    <t t-esc="len(student.attendance_ids)" />
+                  </div>
+                  <div style="font-size: 11px; color: #666; margin-top: 2px;">Total Days</div>
+                </td>
+                <td
+                  style="background: #eafaf1; border: 1px solid #a9dfbf; padding: 12px; width: 33%;">
+                  <div style="font-size: 22px; font-weight: bold; color: #27ae60;">
+                    <t t-esc="len(completed)" />
+                  </div>
+                  <div style="font-size: 11px; color: #666; margin-top: 2px;">Completed</div>
+                </td>
+                <td
+                  style="background: #fef9e7; border: 1px solid #f9e79f; padding: 12px; width: 33%;">
+                  <div style="font-size: 22px; font-weight: bold; color: #f39c12;">
+                    <t t-esc="len(in_progress)" />
+                  </div>
+                  <div style="font-size: 11px; color: #666; margin-top: 2px;">In Progress</div>
+                </td>
+              </tr>
+            </table>
+
+            <!-- Attendance Records Table -->
+            <h4
+              style="color: #4a86c8; border-bottom: 1px solid #ddd; padding-bottom: 6px; margin-bottom: 12px;">
+              Attendance Records
+            </h4>
+
+            <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+              <thead>
+                <tr style="background-color: #4a86c8; color: white;">
+                  <th style="padding: 8px 10px; text-align: left;">#</th>
+                  <th style="padding: 8px 10px; text-align: left;">Date</th>
+                  <th style="padding: 8px 10px; text-align: left;">Time In</th>
+                  <th style="padding: 8px 10px; text-align: left;">Time Out</th>
+                  <th style="padding: 8px 10px; text-align: left;">Duration</th>
+                  <th style="padding: 8px 10px; text-align: center;">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <t t-set="sorted_records"
+                  t-value="student.attendance_ids.sorted(key=lambda r: r.date, reverse=True)" />
+                <t t-foreach="sorted_records" t-as="record">
+                  <tr
+                    t-attf-style="background-color: {{ 'white' if record_index % 2 == 0 else '#f8f9fa' }};">
+                    <td style="padding: 7px 10px; border-bottom: 1px solid #eee;">
+                      <t t-esc="record_index + 1" />
+                    </td>
+                    <td style="padding: 7px 10px; border-bottom: 1px solid #eee;">
+                      <t t-esc="record.date" />
+                    </td>
+                    <td style="padding: 7px 10px; border-bottom: 1px solid #eee;">
+                      <t t-if="record.time_in">
+                        <t t-esc="context_timestamp(record.time_in).strftime('%I:%M %p')" />
+                      </t>
+                      <t t-else="">—</t>
+                    </td>
+                    <td style="padding: 7px 10px; border-bottom: 1px solid #eee;">
+                      <t t-if="record.time_out">
+                        <t t-esc="context_timestamp(record.time_out).strftime('%I:%M %p')" />
+                      </t>
+                      <t t-else="">—</t>
+                    </td>
+                    <td style="padding: 7px 10px; border-bottom: 1px solid #eee;">
+                      <t t-if="record.time_in and record.time_out">
+                        <t t-set="delta" t-value="record.time_out - record.time_in" />
+                        <t t-set="total_minutes" t-value="int(delta.total_seconds() // 60)" />
+                        <t t-set="hours" t-value="total_minutes // 60" />
+                        <t t-set="minutes" t-value="total_minutes % 60" />
+                        <t t-esc="'%dh %02dm' % (hours, minutes)" />
+                      </t>
+                      <t t-else="">—</t>
+                    </td>
+                    <td
+                      style="padding: 7px 10px; border-bottom: 1px solid #eee; text-align: center;">
+                      <span t-if="record.status == 'complete'"
+                        style="background:#d4edda; color:#155724; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold;">
+                        Complete
+                      </span>
+                      <span t-if="record.status == 'in_progress'"
+                        style="background:#fff3cd; color:#856404; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold;">
+                        In Progress
+                      </span>
+                    </td>
+                  </tr>
+                </t>
+                <tr t-if="not student.attendance_ids">
+                  <td colspan="6"
+                    style="text-align: center; padding: 20px; color: #999; font-style: italic;">
+                    No attendance records found.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </t>
+      </t>
+    </t>
+  </template>
+
+
+  <!-- ================================================
+      REPORT 2: ATTENDANCE LIST REPORT
+      Printed from the attendance list — shows all
+      records for a selected date range with totals.
+  ================================================ -->
+
+  <template id="report_attendance_list_template">
+    <t t-call="web.html_container">
+      <t t-call="web.external_layout">
+        <div class="page">
+
+          <!-- Header -->
+          <div style="border-bottom: 2px solid #4a86c8; padding-bottom: 12px; margin-bottom: 20px;">
+            <h2 style="color: #4a86c8; margin: 0;">Attendance Records Report</h2>
+            <p style="color: #666; margin: 4px 0 0 0; font-size: 12px;"> Generated on: <t
+                t-esc="context_timestamp(datetime.datetime.now()).strftime('%B %d, %Y %I:%M %p')" />
+              — Total Records: <strong>
+                <t t-esc="len(docs)" />
+              </strong>
+            </p>
+          </div>
+
+          <!-- Summary Stats -->
+          <t t-set="completed_docs" t-value="docs.filtered(lambda r: r.status == 'complete')" />
+          <t t-set="inprogress_docs" t-value="docs.filtered(lambda r: r.status == 'in_progress')" />
+
+          <table
+            style="width: 100%; margin-bottom: 24px; border-collapse: collapse; text-align: center;">
+            <tr>
+              <td style="background: #eaf3fb; border: 1px solid #c9dff5; padding: 12px; width: 33%;">
+                <div style="font-size: 22px; font-weight: bold; color: #4a86c8;">
+                  <t t-esc="len(docs)" />
+                </div>
+                <div style="font-size: 11px; color: #666; margin-top: 2px;">Total Records</div>
+              </td>
+              <td style="background: #eafaf1; border: 1px solid #a9dfbf; padding: 12px; width: 33%;">
+                <div style="font-size: 22px; font-weight: bold; color: #27ae60;">
+                  <t t-esc="len(completed_docs)" />
+                </div>
+                <div style="font-size: 11px; color: #666; margin-top: 2px;">Completed</div>
+              </td>
+              <td style="background: #fef9e7; border: 1px solid #f9e79f; padding: 12px; width: 33%;">
+                <div style="font-size: 22px; font-weight: bold; color: #f39c12;">
+                  <t t-esc="len(inprogress_docs)" />
+                </div>
+                <div style="font-size: 11px; color: #666; margin-top: 2px;">In Progress</div>
+              </td>
+            </tr>
+          </table>
+
+          <!-- Records Table -->
+          <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+            <thead>
+              <tr style="background-color: #4a86c8; color: white;">
+                <th style="padding: 8px 10px; text-align: left;">#</th>
+                <th style="padding: 8px 10px; text-align: left;">Date</th>
+                <th style="padding: 8px 10px; text-align: left;">Student</th>
+                <th style="padding: 8px 10px; text-align: left;">Department</th>
+                <th style="padding: 8px 10px; text-align: left;">Time In</th>
+                <th style="padding: 8px 10px; text-align: left;">Time Out</th>
+                <th style="padding: 8px 10px; text-align: left;">Duration</th>
+                <th style="padding: 8px 10px; text-align: center;">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <t t-set="sorted_docs"
+                t-value="docs.sorted(key=lambda r: (r.date, r.student_id.name.name or ''), reverse=True)" />
+              <t t-foreach="sorted_docs" t-as="rec">
+                <tr
+                  t-attf-style="background-color: {{ 'white' if rec_index % 2 == 0 else '#f8f9fa' }};">
+                  <td style="padding: 7px 10px; border-bottom: 1px solid #eee;">
+                    <t t-esc="rec_index + 1" />
+                  </td>
+                  <td style="padding: 7px 10px; border-bottom: 1px solid #eee;">
+                    <t t-esc="rec.date" />
+                  </td>
+                  <td style="padding: 7px 10px; border-bottom: 1px solid #eee;">
+                    <t t-esc="rec.student_id.name.name" />
+                  </td>
+                  <td style="padding: 7px 10px; border-bottom: 1px solid #eee; color: #555;">
+                    <t t-esc="rec.student_id.department_id.title or '—'" />
+                  </td>
+                  <td style="padding: 7px 10px; border-bottom: 1px solid #eee;">
+                    <t t-if="rec.time_in">
+                      <t t-esc="context_timestamp(rec.time_in).strftime('%I:%M %p')" />
+                    </t>
+                    <t t-else="">—</t>
+                  </td>
+                  <td style="padding: 7px 10px; border-bottom: 1px solid #eee;">
+                    <t t-if="rec.time_out">
+                      <t t-esc="context_timestamp(rec.time_out).strftime('%I:%M %p')" />
+                    </t>
+                    <t t-else="">—</t>
+                  </td>
+                  <td style="padding: 7px 10px; border-bottom: 1px solid #eee;">
+                    <t t-if="rec.time_in and rec.time_out">
+                      <t t-set="delta" t-value="rec.time_out - rec.time_in" />
+                      <t t-set="total_minutes" t-value="int(delta.total_seconds() // 60)" />
+                      <t t-set="hours" t-value="total_minutes // 60" />
+                      <t t-set="minutes" t-value="total_minutes % 60" />
+                      <t t-esc="'%dh %02dm' % (hours, minutes)" />
+                    </t>
+                    <t t-else="">—</t>
+                  </td>
+                  <td style="padding: 7px 10px; border-bottom: 1px solid #eee; text-align: center;">
+                    <span t-if="rec.status == 'complete'"
+                      style="background:#d4edda; color:#155724; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold;">
+                      Complete
+                    </span>
+                    <span t-if="rec.status == 'in_progress'"
+                      style="background:#fff3cd; color:#856404; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold;">
+                      In Progress
+                    </span>
+                  </td>
+                </tr>
+              </t>
+              <tr t-if="not docs">
+                <td colspan="8"
+                  style="text-align: center; padding: 20px; color: #999; font-style: italic;">
+                  No attendance records found.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </t>
+    </t>
+  </template>
+
+</odoo>
