@@ -33,12 +33,19 @@
     <field name="model">attendance_tracking.attendance</field>
     <field name="arch" type="xml">
       <form string="Attendance Record">
-        <header>
-          <button type="object" name="action_time_out" string="Time Out"
-            class="btn-primary"
-            invisible="not id or status != 'in_progress'" />
-        </header>
         <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button
+              type="object"
+              name="action_time_out"
+              class="oe_stat_button"
+              icon="fa-clock-o"
+              invisible="not id or status != 'in_progress'">
+              <div class="o_stat_info">
+                <span class="o_stat_text">Time Out</span>
+              </div>
+            </button>
+          </div>
           <group>
             <field name="student_id" readonly="1" />
             <field name="date" readonly="1" />
