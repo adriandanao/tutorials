@@ -1,0 +1,10 @@
+<odoo>
+  <record id="action_movie_list" model="ir.actions.act_window">
+    <field name="name">Movies</field>
+    <field name="res_model">movie_listings.movie</field>
+    <field name="view_mode">list,form</field>
+    <field name="view_id" ref="view_movie_tree" />
+  </record>
+
+  <menuitem id="menu_movie_root" name="Movie Listings" action="action_movie_list" />
+</odoo>

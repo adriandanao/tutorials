@@ -1,0 +1,14 @@
+<odoo>
+  <record id="view_movie_tree" model="ir.ui.view">
+    <field name="name">movie.tree</field>
+    <field name="model">movie_listings.movie</field>
+    <field name="arch" type="xml">
+      <list string="Movies">
+        <field name="title" />
+        <field name="synopsis" />
+        <field name="screening_start" widget="daterange"
+          options="{'end_date_field': 'screening_end'}" />
+      </list>
+    </field>
+  </record>
+</odoo>

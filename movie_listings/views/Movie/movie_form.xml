@@ -1,0 +1,20 @@
+<odoo>
+  <record id="view_movie_form" model="ir.ui.view">
+    <field name="name">movie.form</field>
+    <field name="model">movie_listings.movie</field>
+    <field name="arch" type="xml">
+      <form string="Movie">
+        <sheet>
+          <group>
+            <field name="title" />
+            <field name="synopsis" />
+            <group>
+              <field name="screening_start" string="Screening Duration" widget="daterange"
+                options="{'end_date_field': 'screening_end'}" />
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>
